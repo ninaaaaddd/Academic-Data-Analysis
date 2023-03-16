@@ -1,0 +1,393 @@
+
+<!-- saved from url=(0039)https://portal.iitdh.ac.in/asc/menu.jsp -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<style media="screen">
+
+#feedback { margin-bottom: 10px; }
+  [contenteditable="true"] { padding: 10px; outline: 2px dashed #CCC; }
+  [contenteditable="true"]:hover { outline: 2px dashed #0090D2; }
+
+#boksi { 
+width:50%;
+height:50%;
+bottom:50%;
+right:50%;
+position:absolute;
+
+}
+#sisalto {
+top:50%;
+left:50%;
+width:100%;
+height:100%;
+position:relative;
+overflow:auto;
+padding:5px;
+border:1px dashed #000;
+background-color:#ff0;
+color:#000;
+}
+
+#send 
+	{	  
+	  margin-left: auto ;
+	  margin-right: auto ;
+	  border: 1px;
+	  border-color:black;
+	  border-style:solid;
+	  font-family:verdana;
+	  background-color:grey;
+	  top:50%;
+		left:50%;
+		bottom:50%;
+		right:50%;
+		position:absolute;
+		width:100%;
+		height:100%;
+		//position:relative;
+		overflow:auto;
+	  text-align: left;
+	  vertical-align: top;
+	 display:none;
+	}
+	
+	#button {
+	color: black ;
+	background-color: #9cf ;
+	 appearance:button;
+	 text-align:center;
+	 //width:55px;
+	 -moz-appearance:button; /* Firefox */
+	-webkit-appearance:button; /* Safari and Chrome */
+	border-top: 1px solid #c0ffff ;
+	border-right: 1px solid #00f ;
+	border-bottom: 1px solid #00f ;
+	border-left: 1px solid #c0ffff ;
+	  margin-left: auto ;
+	  margin-right: auto ;
+}
+
+
+</style>
+<title>Application Software Cell asc</title>
+<link rel="stylesheet" type="text/css" href="./screen.css">
+<link rel="stylesheet" type="text/css" href="./tree.css">
+<link rel="stylesheet" type="text/css" href="./tree.css">
+<link rel="stylesheet" type="text/css" href="./asc.css">
+<script>
+
+	function hideit()
+	{		
+	
+		if(parent.frames['leftPage'].document.body.scrollWidth >= 200)
+		{
+			//alert("The Left frame will hide.Click on the arrow to restore it.");
+			window.top.document.getElementById('leftframeset').cols = "15px,*";
+			document.getElementById("hideframe").src="Themes/LightSkyBlue/Images/blue_arrow.gif";			
+			document.getElementById("test123").style.display="none";
+		}
+		else
+		{
+			//alert("The Left frame will restore.Click on the arrow to hide it.");
+			window.top.document.getElementById('leftframeset').cols = "250px,*";
+			document.getElementById("hideframe").src="Themes/LightSkyBlue/Images/blue_arrow_left.gif";
+			document.getElementById("test123").style.display="block";
+		}
+	
+	}
+
+	function loadframe(parnode,childnode,apptype)
+	{
+
+		var val11=parnode+"_"+childnode+"_"+apptype;
+		var valtowrite = document.getElementById(val11).innerHTML;
+        var deadlinks=document.getElementsByTagName("a");
+		for (var i=0;i<deadlinks.length;i++){
+			if(deadlinks[i].id == val11)	{
+			//alert(deadlinks[i].href);
+			document.getElementById("urlvalue").value=deadlinks[i].href;		
+			//deadlinks[i].onclick = openModal;		
+		}
+	    }		
+		
+		
+		if(valtowrite=="Online Purchase System")
+		{
+			//alert("Priya");
+			valtowrite="<small><font color='#4B6397'>Click on the icon to expand or collaspe.</font></small>";
+			
+		}
+		
+		//top.frames['rightPage1'].location.href="WebPages/HeadFoot/Header.jsp?node="+childnode+"&apptype="+apptype+"&parnode="+parnode;
+		//top.frames['rightPage1'].document.open();
+		//top.frames['rightPage1'].document.write("");
+		//top.frames['rightPage1'].document.close();
+		//top.frames['rightPage1'].document.open();		
+		//top.frames['rightPage1'].document.write(valtowrite);
+		//top.frames['rightPage1'].document.close();
+	}
+	
+	function loadframesitemap()
+	{
+		top.frames['rightPage1'].location.href="WebPages/HeadFoot/Header.jsp";
+	}
+
+	function toggleSend()
+	{
+	try
+	{
+		postRequest('/academic/Capture.jsp');
+		//alert(" --1 ");
+		//top.document.getElementById("body").style.zIndex=-100;
+		//alert(" --2 "+top.document.getElementById("boksi").style.zIndex);
+		top.document.getElementById("boksi").style.zIndex=2;
+		//alert(" -- "+top.document.getElementById("send").style.zIndex);
+		top.document.getElementById("send").style.display='block';
+		//alert(" --3 ");	
+		var filename= top.document.getElementById("filename").value;
+		
+		
+	}
+	catch(e)
+	{
+		alert(e);
+	}
+	}
+	
+	function postRequest(strURL)
+	{
+			
+		var xmlHttp;
+	    	if(window.XMLHttpRequest)
+		{ 
+			// For Mozilla, Safari, ...
+	                var xmlHttp = new XMLHttpRequest();
+		}
+	        else if(window.ActiveXObject) 
+		{ 
+			// For Internet Explorer
+	                var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		xmlHttp.open('POST', strURL, true);
+	        xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	        xmlHttp.onreadystatechange = function()
+		{
+
+			if (xmlHttp.readyState == 1)
+			{
+				//document.getElementById('loading').style.display="block";
+				//ScrollToElement(document.getElementById('loading'));
+				
+			}
+			else if (xmlHttp.readyState == 4)
+			{
+				//alert(xmlHttp.responseText);
+				
+				if(xmlHttp.responseText.indexOf("Fail")>=0)
+				{
+					top.document.getElementById("msg").innerHTML = "Problem in attaching Screen Shot.";
+				}
+				else
+				{
+					top.document.getElementById("msg").innerHTML = "Screen shot attached succesfully";
+					var responseMsg = xmlHttp.responseText;
+					var fname= responseMsg.substring(0,responseMsg.indexOf("#"));
+					top.document.getElementById("filename").value=fname;
+					top.document.getElementById("hiddenmsg").value =responseMsg.substring(responseMsg.indexOf("#")+3);
+					
+				}
+			}
+		}
+	 xmlHttp.send(strURL);
+	}
+	
+	function framePrint()
+	{
+		
+	  			
+	  	try
+	  	{
+	  		//var myIFrame1 = document.getElementById("rightPage123");
+			//var content1 = myIFrame1.contentWindow.location;
+	  		//var content = navigator.userAgent.indexOf('MSIE') != -1 ? myIFrame.contentWindow.document : myIFrame.contentDocument;
+	  		myWin=window.open("","myWin","menubar,scrollbars,left=30px,top=40px,height=600px,width=600px");
+	  		var urlvalue=document.getElementById("urlvalue").value;  		
+	  			  		
+	  		if(urlvalue.indexOf("attendance") > 0)
+	  		{	  			
+	  			var valtoprint="<html><head><STYLE TYPE='text/css'> 	H1 {page-break-after: always}	</STYLE> </head><body> "+parent.frames['rightPage'].document.body.innerHTML+" </body></html> ";	  			
+	  			myWin.document.write(valtoprint);
+	  		}
+	  		else
+	  		{	  				  			  		
+	  			myWin.document.write(parent.frames['rightPage'].document.body.innerHTML);
+	  		}
+	  	}
+	  	catch(err)
+	  	{
+	  		//alert(" err "+err);
+	  		myWin=window.open(document.getElementById("urlvalue").value,"myWin","left=30px,top=40px,height=600px,width=600px");
+	  	} 
+	  		myWin.print();
+	  	
+	}
+	
+
+	
+</script>
+
+<script>
+ function validate() 
+ {
+ 	 if(document.search.keyword.value.length < 1 )
+ 	 { 
+ 	  	alert("Enter Some Keyword");
+ 	  	document.search.keyword.focus();
+ 	  	return false ;
+ 	 } 	
+ 	 else
+ 	 	return true;  
+ 	   	
+}
+// http://localhost:8080/ascwebsite-init/Themes/WhiteSkyGreen/Images/login.jpg
+</script>		
+</head> 
+
+
+
+<body background="./MenuSpace.jpeg" onload="document.getElementById(&#39;treeDiv&#39;).innerHTML=&#39;&#39;;" data-new-gr-c-s-check-loaded="14.1081.0" data-gr-ext-installed="">
+
+<img id="hideframe" onclick="javscript:hideit();" src="./blue_arrow_left.gif" align="right">
+<div id="test123" style="display:block;">
+
+
+<script type="text/javascript" src="./yahoo.js"></script>
+<script type="text/javascript" src="./event.js"></script>
+<script type="text/javascript" src="./log.js"></script>
+<script type="text/javascript" src="./json.js"></script>
+<script type="text/javascript" src="./treeview.js"></script>
+<script type="text/javascript" src="./TaskNode.js"></script>
+<script type="text/javascript" src="./CheckOnClickNode.js"></script>
+
+<script type="text/javascript">
+	var gLogger;
+	var tree;
+	var nodes = new Array();
+	var nodeIndex;
+	
+	function treeInit() {	
+		buildNodeTree();
+	}
+	
+	function buildNodeTree() {
+		
+		tree = new YAHOO.widget.TreeView("treeDiv");
+		var Node00=tree.getRoot();		
+		//var Node11 = new YAHOO.widget.TextNode("ASC Web", Node00, true); 
+		
+		
+var Node40 = buildChild(Node00,"Academic",false);
+var Node457 = buildChild(Node40,"Course Info",false);
+var Node412 = buildChild(Node40,"<a id='4_12_1' href='/asc/Grading/Faculty/dispCICodes.jsp' title='Online grading interface' onclick='javascript:loadframe(4,12,1);'  target=rightPage >My Courses (grading,email, lists)</a>",false);
+var Node476 = buildChild(Node40,"Course feedback",false);
+var Node477 = buildChild(Node40,"Faculty Advisor",false);
+var Node459 = buildChild(Node457,"<a id='4_59_1' href='/asc/utility/allDept.jsp' title='Running Courses for Current Semester' onclick='javascript:loadframe(4,59,1);'  target=rightPage >Running Courses</a>",false);
+var Node411 = buildChild(Node476,"<a id='4_11_1' href='/asc/CourseEval/Faculty/courseEvaluationReport.jsp' title='Course Evaluation Report' onclick='javascript:loadframe(4,11,1);'  target=rightPage >Course Feedback Report</a>",false);
+var Node460 = buildChild(Node457,"<a id='4_60_1' href='/asc/CourseRegistration/Common/newallCourse.jsp' title='Course Details' onclick='javascript:loadframe(4,60,1);'  target=rightPage >Course Details</a>",false);
+var Node458 = buildChild(Node457,"<a id='4_58_1' href='PrintBulletin' title='Browse Bulletin' onclick='javascript:loadframe(4,58,1);'  target=rightPage >Browse Bulletin</a>",false);
+var Node484 = buildChild(Node477,"<a id='4_84_1' href='/asc/CourseRegistration/Faculty/RegistrationByAdvisor.jsp' title='Faculty Advisor Interface' onclick='javascript:loadframe(4,84,1);'  target=rightPage >UG/PG Faculty Advisor Interfacse</a>",false);
+var Node471 = buildChild(Node457,"<a id='4_71_1' href='/asc/Grading/statistics/gradstatistics.jsp' title='Statistics of Online Grading' onclick='javascript:loadframe(4,71,1);'  target=rightPage >Grading Statistics</a>",false);
+var Node170 = buildChild(Node00,"<a onclick='javascript:framePrint();' href=# title='Print Right Page' >Print</a>",false);
+null
+
+		//tree.expandAll();
+		tree.draw();
+				
+	}
+	
+	function  buildChild(node,url,flag) 
+	{
+		//alert(" -- "+node.label+" -- "+node.depth);
+		if (node.depth < 7) 
+		{
+			var tmpNode = new YAHOO.widget.TextNode(url, node, flag);		
+			return tmpNode;
+		}
+	}
+	
+    YAHOO.util.Event.addListener(window, "load", treeInit);
+</script>
+
+<div id="0_4_1" style="display:none"><font size="2" face="arial">null</font></div><div id="4_57_1" style="display:none"><font size="2" face="arial"><b>Academic &gt; </b><a class="header" target="rightPage" href="https://portal.iitdh.ac.in/asc/style=%22text-decoration:none" "=""><font color="purple"><b>Course Info</b></font></a></font></div><div id="4_12_1" style="display:none"><font size="2" face="arial"><b>Academic &gt; </b><a class="header" target="rightPage" href="https://portal.iitdh.ac.in/asc/Grading/Faculty/dispCICodes.jsp" style="text-decoration:none "><font color="purple"><b>My Courses (grading,email, lists)</b></font></a></font></div><div id="4_76_1" style="display:none"><font size="2" face="arial"><b>Academic &gt; </b><a class="header" target="rightPage" href="https://portal.iitdh.ac.in/asc/style=%22text-decoration:none" "=""><font color="purple"><b>Course feedback</b></font></a></font></div><div id="4_77_1" style="display:none"><font size="2" face="arial"><b>Academic &gt; </b><a class="header" target="rightPage" href="https://portal.iitdh.ac.in/asc/style=%22text-decoration:none" "=""><font color="purple"><b>Faculty Advisor</b></font></a></font></div><div id="4_59_1" style="display:none"><font size="2" face="arial"><b>Academic &gt; Course Info &gt; </b><a class="header" target="rightPage" href="https://portal.iitdh.ac.in/asc/utility/allDept.jsp" style="text-decoration:none "><font color="purple"><b>Running Courses</b></font></a></font></div><div id="4_11_1" style="display:none"><font size="2" face="arial"><b>Academic &gt; Course feedback &gt; </b><a class="header" target="rightPage" href="https://portal.iitdh.ac.in/asc/CourseEval/Faculty/courseEvaluationReport.jsp" style="text-decoration:none "><font color="purple"><b>Course Feedback Report</b></font></a></font></div><div id="4_60_1" style="display:none"><font size="2" face="arial"><b>Academic &gt; Course Info &gt; </b><a class="header" target="rightPage" href="https://portal.iitdh.ac.in/asc/CourseRegistration/Common/newallCourse.jsp" style="text-decoration:none "><font color="purple"><b>Course Details</b></font></a></font></div><div id="4_58_1" style="display:none"><font size="2" face="arial"><b>Academic &gt; Course Info &gt; </b><a class="header" target="rightPage" href="https://portal.iitdh.ac.in/asc/PrintBulletin" style="text-decoration:none "><font color="purple"><b>Browse Bulletin</b></font></a></font></div><div id="4_84_1" style="display:none"><font size="2" face="arial"><b>Academic &gt; Faculty Advisor &gt; </b><a class="header" target="rightPage" href="https://portal.iitdh.ac.in/asc/CourseRegistration/Faculty/RegistrationByAdvisor.jsp" style="text-decoration:none "><font color="purple"><b>UG/PG Faculty Advisor Interfacse</b></font></a></font></div><div id="4_71_1" style="display:none"><font size="2" face="arial"><b>Academic &gt; Course Info &gt; </b><a class="header" target="rightPage" href="https://portal.iitdh.ac.in/asc/Grading/statistics/gradstatistics.jsp" style="text-decoration:none "><font color="purple"><b>Grading Statistics</b></font></a></font></div>
+<div style="display:none" id="a">test</div>
+<input type="hidden" name="urlvalue" value="https://portal.iitdh.ac.in/asc/utility/allDept.jsp" id="urlvalue">
+<br>
+<!-- 
+<big><big><b>&nbsp;&nbsp;ASC</b></big></big>
+-->
+<br>
+&nbsp;&nbsp;
+<a class="top" href="https://portal.iitdh.ac.in/asc/WebPages/Login.jsp" target="rightPage" onclick="javascript:loadframesitemap();">Home</a> &nbsp;|&nbsp;
+
+<a class="top" href="https://portal.iitdh.ac.in/asc/index.jsp?logout=yes" target="_parent">Sign out</a>&nbsp;|&nbsp;
+
+
+<a class="top" href="https://portal.iitdh.ac.in/asc/flat_menu.jsp" onclick="javascript:loadframesitemap();">Site Map</a>
+<!-- &nbsp;|&nbsp; <a class=top  href="#" onclick="javascript:framePrint('rightPage');" title="Print Page">Print</a> -->
+  
+<form name="search" action="https://portal.iitdh.ac.in/asc/WebPages/SearchResult.jsp" method="post" target="rightPage">
+<table>
+	<tbody><tr>
+		<td colspan="3">&nbsp;&nbsp;<big><b>Search ASC</b></big></td>
+	</tr>
+	<tr>
+		<td>
+		&nbsp;&nbsp;
+			<input size="16" type="textbox" name="keyword" value="">
+		</td>
+		<td>
+		
+		</td>
+		<td>
+			<input align="top" type="image" width="20" height="20" name="submit" src="./search.jpeg" onclick="return validate();">
+		</td>
+		
+	</tr>
+
+</tbody></table>
+</form>
+<br>
+<table width="95%">
+	<tbody><tr>
+		<td width="1%"><br></td>
+		<td width="200px">
+			<div class="newsItem">
+				<h3><big></big></h3>
+	  			<div id="treeDiv"><div class="ygtvitem" id="ygtv0"><div class="ygtvchildren" id="ygtvc0"><div class="ygtvitem" id="ygtv1"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td id="ygtvt1" class="ygtvtm" onmouseover="this.className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,1).getHoverStyle()" onmouseout="this.className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,1).getStyle()" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,1).toggle()">&nbsp;</td><td><a id="ygtvlabelel1" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,1).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,1).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,1))" onmouseover="document.getElementById(&#39;ygtvt1&#39;).className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,1).getHoverStyle()" onmouseout="document.getElementById(&#39;ygtvt1&#39;).className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,1).getStyle()">Academic</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc1" style=""><div class="ygtvitem" id="ygtv2"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="ygtvdepthcell">&nbsp;</td><td id="ygtvt2" class="ygtvtm" onmouseover="this.className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,2).getHoverStyle()" onmouseout="this.className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,2).getStyle()" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,2).toggle()">&nbsp;</td><td><a id="ygtvlabelel2" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,2).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,2).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,2))" onmouseover="document.getElementById(&#39;ygtvt2&#39;).className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,2).getHoverStyle()" onmouseout="document.getElementById(&#39;ygtvt2&#39;).className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,2).getStyle()">Course Info</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc2" style=""><div class="ygtvitem" id="ygtv6"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="ygtvdepthcell">&nbsp;</td><td class="ygtvdepthcell">&nbsp;</td><td id="ygtvt6" class="ygtvtn" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,6).toggle()">&nbsp;</td><td><a id="ygtvlabelel6" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,6).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,6).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,6))"></a><a id="4_59_1" href="https://portal.iitdh.ac.in/asc/utility/allDept.jsp" title="Running Courses for Current Semester" onclick="javascript:loadframe(4,59,1);" target="rightPage">Running Courses</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc6" style="display:none;"></div></div><div class="ygtvitem" id="ygtv8"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="ygtvdepthcell">&nbsp;</td><td class="ygtvdepthcell">&nbsp;</td><td id="ygtvt8" class="ygtvtn" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,8).toggle()">&nbsp;</td><td><a id="ygtvlabelel8" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,8).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,8).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,8))"></a><a id="4_60_1" href="https://portal.iitdh.ac.in/asc/CourseRegistration/Common/newallCourse.jsp" title="Course Details" onclick="javascript:loadframe(4,60,1);" target="rightPage">Course Details</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc8" style="display:none;"></div></div><div class="ygtvitem" id="ygtv9"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="ygtvdepthcell">&nbsp;</td><td class="ygtvdepthcell">&nbsp;</td><td id="ygtvt9" class="ygtvtn" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,9).toggle()">&nbsp;</td><td><a id="ygtvlabelel9" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,9).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,9).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,9))"></a><a id="4_58_1" href="https://portal.iitdh.ac.in/asc/PrintBulletin" title="Browse Bulletin" onclick="javascript:loadframe(4,58,1);" target="rightPage">Browse Bulletin</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc9" style="display:none;"></div></div><div class="ygtvitem" id="ygtv11"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="ygtvdepthcell">&nbsp;</td><td class="ygtvdepthcell">&nbsp;</td><td id="ygtvt11" class="ygtvln" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,11).toggle()">&nbsp;</td><td><a id="ygtvlabelel11" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,11).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,11).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,11))"></a><a id="4_71_1" href="https://portal.iitdh.ac.in/asc/Grading/statistics/gradstatistics.jsp" title="Statistics of Online Grading" onclick="javascript:loadframe(4,71,1);" target="rightPage">Grading Statistics</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc11" style="display:none;"></div></div></div></div><div class="ygtvitem" id="ygtv3"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="ygtvdepthcell">&nbsp;</td><td id="ygtvt3" class="ygtvtn" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,3).toggle()">&nbsp;</td><td><a id="ygtvlabelel3" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,3).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,3).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,3))"></a><a id="4_12_1" href="https://portal.iitdh.ac.in/asc/Grading/Faculty/dispCICodes.jsp" title="Online grading interface" onclick="javascript:loadframe(4,12,1);" target="rightPage">My Courses (grading,email, lists)</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc3" style="display:none;"></div></div><div class="ygtvitem" id="ygtv4"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="ygtvdepthcell">&nbsp;</td><td id="ygtvt4" class="ygtvtm" onmouseover="this.className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,4).getHoverStyle()" onmouseout="this.className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,4).getStyle()" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,4).toggle()">&nbsp;</td><td><a id="ygtvlabelel4" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,4).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,4).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,4))" onmouseover="document.getElementById(&#39;ygtvt4&#39;).className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,4).getHoverStyle()" onmouseout="document.getElementById(&#39;ygtvt4&#39;).className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,4).getStyle()">Course feedback</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc4" style=""><div class="ygtvitem" id="ygtv7"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="ygtvdepthcell">&nbsp;</td><td class="ygtvdepthcell">&nbsp;</td><td id="ygtvt7" class="ygtvln" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,7).toggle()">&nbsp;</td><td><a id="ygtvlabelel7" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,7).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,7).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,7))"></a><a id="4_11_1" href="https://portal.iitdh.ac.in/asc/CourseEval/Faculty/courseEvaluationReport.jsp" title="Course Evaluation Report" onclick="javascript:loadframe(4,11,1);" target="rightPage">Course Feedback Report</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc7" style="display:none;"></div></div></div></div><div class="ygtvitem" id="ygtv5"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="ygtvdepthcell">&nbsp;</td><td id="ygtvt5" class="ygtvlp" onmouseover="this.className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,5).getHoverStyle()" onmouseout="this.className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,5).getStyle()" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,5).toggle()">&nbsp;</td><td><a id="ygtvlabelel5" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,5).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,5).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,5))" onmouseover="document.getElementById(&#39;ygtvt5&#39;).className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,5).getHoverStyle()" onmouseout="document.getElementById(&#39;ygtvt5&#39;).className=YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,5).getStyle()">Faculty Advisor</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc5" style="display:none;"></div></div></div></div><div class="ygtvitem" id="ygtv12"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td id="ygtvt12" class="ygtvln" onclick="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,12).toggle()">&nbsp;</td><td><a id="ygtvlabelel12" class="ygtvlabel" href="javascript:YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,12).toggle()" target="_self" onclick="return YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,12).onLabelClick(YAHOO.widget.TreeView.getNode(&#39;treeDiv&#39;,12))"></a><a onclick="javascript:framePrint();" href="https://portal.iitdh.ac.in/asc/menu.jsp#" title="Print Right Page">Print</a></td></tr></tbody></table><div class="ygtvchildren" id="ygtvc12" style="display:none;"></div></div></div></div></div>
+			</div>
+		</td>
+	</tr>
+	<!-- 
+	<tr>
+	<td></td>
+	<td>
+	Having problem with new interface?<br>
+	<a target="_parent" href="http://asc.iitb.ac.in/index_old.html">click here</a> to use the old interface.
+	</td>
+	</tr>
+	<tr class=dash_bottom>
+		<td></td>
+		<td align=right>
+			<big><big><big><i><a target=rightPage>ASC</a></i></big></big></big><br>
+			http://asc.iitb.ac.in
+		</td>
+	</tr>
+	-->
+</tbody></table>
+</div>
+
+
+
+<div style="position: absolute; top: -1000px; left: -1000px;"><span class="ygtvtn">&nbsp;</span><span class="ygtvtm">&nbsp;</span><span class="ygtvtmh">&nbsp;</span><span class="ygtvtp">&nbsp;</span><span class="ygtvtph">&nbsp;</span><span class="ygtvln">&nbsp;</span><span class="ygtvlm">&nbsp;</span><span class="ygtvlmh">&nbsp;</span><span class="ygtvlp">&nbsp;</span><span class="ygtvlph">&nbsp;</span><span class="ygtvloading">&nbsp;</span></div></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
